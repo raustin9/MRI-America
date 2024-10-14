@@ -1,0 +1,7 @@
+venv/*
+!venv/.gitkeep
+
+data
+
+preprocessing/venv/*
+!preprocessing/venv/.gitkeep

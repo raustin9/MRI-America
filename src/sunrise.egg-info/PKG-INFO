@@ -1,0 +1,21 @@
+Metadata-Version: 2.1
+Name: sunrise
+Version: 0.1.0
+Summary: web application for viewing national parks
+Author: https://github.com/player1537
+License: wtfpl
+Classifier: Development Status :: 4 - Beta
+Requires-Dist: numpy
+Requires-Dist: skyfield
+Requires-Dist: Pillow
+Requires-Dist: fastapi
+Requires-Dist: jinja2
+Requires-Dist: bs4
+Requires-Dist: pandas
+Requires-Dist: pickleshare
+Requires-Dist: matplotlib
+Requires-Dist: uvicorn
+Requires-Dist: tomli
+Requires-Dist: opencv-python
+Requires-Dist: structlog
+Provides-Extra: prod

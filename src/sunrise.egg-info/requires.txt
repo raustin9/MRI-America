@@ -1,0 +1,15 @@
+numpy
+skyfield
+Pillow
+fastapi
+jinja2
+bs4
+pandas
+pickleshare
+matplotlib
+uvicorn
+tomli
+opencv-python
+structlog
+
+[prod]

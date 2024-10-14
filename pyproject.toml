@@ -1,0 +1,32 @@
+[project]
+name = "sunrise"
+version = "0.1.0"
+description = "web application for viewing national parks"
+authors = [ { name="https://github.com/player1537" } ]
+license = { text = "wtfpl" }
+classifiers = [
+    "Development Status :: 4 - Beta",
+]
+
+dependencies = [
+    "numpy",
+    "skyfield",
+    "Pillow",
+    "fastapi",
+    "jinja2",
+    "bs4",
+    "pandas",
+    "pickleshare",
+    "matplotlib",
+    "uvicorn",
+    "tomli",
+    "opencv-python",
+    "structlog",
+]
+
+[tool.setuptools.package-data]
+sunrise = ["static/*", "templates/*"]
+
+[project.optional-dependencies]
+prod = [
+]

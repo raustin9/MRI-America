@@ -1,0 +1,13 @@
+**/.vscode
+**/build
+**/venv
+**/*.tar.gz
+**/*.raw
+**/.git
+**/data
+**/__pycache__
+**/tmp
+**/tmpT
+**/temp
+*.png
+**/archive
