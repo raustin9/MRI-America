@@ -5,7 +5,6 @@ import {
     Point,
 } from '../../utils';
 import { CameraControls, TrackballCameraControls, PanningCameraControls } from './controls';
-import { species } from '../selection'
 import { SUNRISE_CITY_SERVER_HOST } from '../../config.js';
 
 export default class Renderer {
@@ -84,9 +83,6 @@ export default class Renderer {
 
     /** @type {String} */
     current_light = "distant";
-
-    /** @type {String} */
-    current_species = species().irma_id;
 
     /** @type {Event} */
     render_event;
@@ -172,9 +168,8 @@ export default class Renderer {
             // ,-83.9202
            
             // Knoxville Antipode
-            35.9641
-            ,83.9202
-
+            61.255983
+            ,-150.024587
             // Henderson
             // 35.63981,
             // -88.39155
@@ -182,7 +177,7 @@ export default class Renderer {
             // 35.9641 - 0.3
             // ,-83.9202 - 4.3
             // ,1000 + 10.34000033088
-            ,1.00
+            ,1.5
             // ,0.15
         );
         this.central_point = new Point(
@@ -305,8 +300,7 @@ export default class Renderer {
         url.searchParams.append('samples', 4);
         url.searchParams.append('hour', this.current_time);
         url.searchParams.append('light', this.current_light);
-        //url.searchParams.append('observation', species());
-        url.searchParams.append('observation', this.current_species);
+        // url.searchParams.append('observation', this.current_species);
 
         // Make the request
         return new Promise((res, rej) => {
@@ -560,13 +554,13 @@ export default class Renderer {
         });
     }
 
-    /**
-        * @description Change which observation is being rendered
-        * @param {String} obs_id The irma_id number of the species we are rendering
-    */
-    change_observation(obs_id) {
-        this.current_species = obs_id;
-    }
+    // /**
+    //     * @description Change which observation is being rendered
+    //     * @param {String} obs_id The irma_id number of the species we are rendering
+    // */
+    // change_observation(obs_id) {
+    //     this.current_species = obs_id;
+    // }
 
     /**
         * @description The render loop that decides when we need to request another image

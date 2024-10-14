@@ -112,7 +112,7 @@ export class TrackballCameraControls extends CameraControls {
         * @description Update how quickly we should rotate based on how close we are to the target
     */
     #update_rotation_speed() {
-        const maxSpeed = 30.0;
+        const maxSpeed = 100.0;
         const minSpeed = 0.01;
         const maxZoomSpeed = 1;
         // const maxZoomSpeed = 0.5;

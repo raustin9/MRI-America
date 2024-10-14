@@ -139,7 +139,7 @@ go---Invoke-Server() {
     SUNRISE_SERVER_BIND=${server_bind:?} \
     SUNRISE_SERVER_PORT=${server_port:?} \
     pexec python -m \
-        server.server \
+        sunrise.server \
     ##
 }
 

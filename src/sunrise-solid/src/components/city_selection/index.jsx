@@ -5,7 +5,7 @@ import {
     Button,
 } from '@suid/material';
 import { createSignal, onMount } from 'solid-js';
-import { gotoPark, renderFrame, setObservation, setRendererTime } from '../vaas';
+import { gotoPark, renderFrame, setObservation, setRendererTime } from '../city_vaas';
 import { 
     setPathIsPlaying, 
     pathAnimationCallback,
