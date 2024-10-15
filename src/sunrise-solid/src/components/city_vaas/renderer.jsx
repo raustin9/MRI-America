@@ -168,8 +168,11 @@ export default class Renderer {
             // ,-83.9202
            
             // Knoxville Antipode
-            61.255983
-            ,-150.024587
+            // 61.255983
+            // ,-150.024587
+            // Anchorage, AK
+            61.2176
+            ,-149.8997
             // Henderson
             // 35.63981,
             // -88.39155
@@ -177,8 +180,8 @@ export default class Renderer {
             // 35.9641 - 0.3
             // ,-83.9202 - 4.3
             // ,1000 + 10.34000033088
-            ,1.5
-            // ,0.15
+            // ,1.0
+            ,0.6
         );
         this.central_point = new Point(
             35.562744,

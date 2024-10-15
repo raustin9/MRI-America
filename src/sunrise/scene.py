@@ -208,18 +208,18 @@ class Building(WithExitStackMixin):
     
     def make(self):
         position = self.path / f'{self.name}.mesh.vec3f[].vertex.position.bin'
-        print(f'Loading vertices {position}')
+        # print(f'Loading vertices {position}')
         position = Map(position, dtype=[
             ('x', 'f4'),
             ('y', 'f4'),
             ('z', 'f4'),
         ])
-        print()
-        print()
-        print("POSITION")
-        print(position)
-        print()
-        print()
+        # print()
+        # print()
+        # print("POSITION")
+        # print(position)
+        # print()
+        # print()
         # xlo = position['x'].min()
         # xhi = position['x'].max()
         # xmi = (xlo + xhi) / 2
@@ -237,25 +237,25 @@ class Building(WithExitStackMixin):
         self.defer(lib.ospRelease, position)
 
         index = self.path / f'{self.name}.mesh.vec3ui[].vertex.index.bin'
-        print(f'Loading quads {index}')
+        # print(f'Loading quads {index}')
         index = Map(index, dtype=[
             ('a', 'u4'),
             ('b', 'u4'),
             ('c', 'u4'),
         ])
-        print()
-        print()
-        print("INDEX")
-        print(index)
-        print()
-        print()
+        # print()
+        # print()
+        # print("INDEX")
+        # print(index)
+        # print()
+        # print()
 
         self.hold(index)
         index = Data(index, type=lib.OSP_VEC3UI, share=True)
         self.defer(lib.ospRelease, index)
 
         
-        print(self.path)
+        # print(self.path)
 
         geometry = lib.ospNewGeometry(b'mesh')
         self.defer(lib.ospRelease, geometry)
@@ -263,8 +263,8 @@ class Building(WithExitStackMixin):
         lib.ospSetObject(geometry, b'index', index)
         lib.ospSetVec3f(geometry, b'color', 0.0, 1.0, 1.0) 
         lib.ospCommit(geometry)
-
-        print(f'loading materials')
+        #
+        # print(f'loading materials')
         material = lib.ospNewMaterial(b'obj')
         lib.ospSetVec3f(material, b'kd', 0.5, 0.7, 0.2)
         self.defer(lib.ospRelease, material)
@@ -293,7 +293,7 @@ class Building(WithExitStackMixin):
         #     *materials,
         # ], type=lib.OSP_MATERIAL)
         # self.defer(lib.ospRelease, materials)
-        print('loaded materials')
+        # print('loaded materials')
 
         # index = self.path / 'TOSPGeometricModel.uchar[].index.bin'
         # # index = self.path / 'OSPGeometricModel.uchar[].index.bin'
@@ -306,7 +306,7 @@ class Building(WithExitStackMixin):
         # self.defer(lib.ospRelease, index)
         # print('loaded index')
         
-        print(f'loading geomodel')
+        # print(f'loading geomodel')
         geomodel = lib.ospNewGeometricModel(None)
         self.defer(lib.ospRelease, geomodel)
         lib.ospSetObject(geomodel, b'geometry', geometry)
@@ -314,36 +314,39 @@ class Building(WithExitStackMixin):
         lib.ospSetVec4f(geomodel, b'color', 0.0, 1.0, 1.0, 1.0)
         # lib.ospSetObject(geomodel, b'index', index)
         lib.ospCommit(geomodel)
-        print('loaded geomodel')
-
-        print(f'loading geomodels')
+        # print('loaded geomodel')
+        #
+        # print(f'loading geomodels')
         geomodels = Data([
             geomodel,
         ], type=lib.OSP_GEOMETRIC_MODEL)
         self.defer(lib.ospRelease, geomodel)
-        print('loaded geomodels')
+        # print('loaded geomodels')
 
-        print(f'loading group')
+        # print(f'loading group')
         group = lib.ospNewGroup()
         self.defer(lib.ospRelease, group)
         lib.ospSetObject(group, b'geometry', geomodels)
         lib.ospCommit(group)
-        print('loaded group')
+        # print('loaded group')
 
-        print(f'loading instance')
+        # print(f'loading instance')
         instance = lib.ospNewInstance(None)
         self.defer(lib.ospRelease, instance)
         lib.ospSetObject(instance, b'group', group)
         lib.ospSetAffine3f(instance, b'transform', Affine3f(
+            # sx=1.5 * self.scale,
             sx=1.0 * self.scale,
             # sx=-1.0 * self.scale,
             sy=1.0 * self.scale,
+            # sy=1.5 * self.scale,
             # sy=-1.0 * self.scale,
             # sz=-1.0 * self.scale,
+            # sz=1.0,
             sz=1.0 * self.scale,
         ))
         lib.ospCommit(instance)
-        print('loaded instance')
+        # print('loaded instance')
 
         self.instance = instance
 
@@ -549,7 +552,7 @@ class City(WithExitStackMixin):
             print(f'{i} / {total}')
             i += 1
 
-            if i == 2:
+            if i == 30000:
                 break
 
         # building = self.path / state 
@@ -599,7 +602,7 @@ class City(WithExitStackMixin):
         # ))
         # print('loaded roads')
         building_instances = [b.instance for b in self.buildings]
-        print(*building_instances)
+        # print(*building_instances)
         exit
 
         print(f'loading instances')
@@ -610,8 +613,8 @@ class City(WithExitStackMixin):
             # tn.instance,
             # knox.instance,
             # roads.instance,
-            # *building_instances
-            building_instances[0],
+            *building_instances
+            # building_instances[0],
         ], type=lib.OSP_INSTANCE)
         self.defer(lib.ospRelease, instances)
         print('loaded instances')
