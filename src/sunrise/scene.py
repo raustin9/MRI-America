@@ -552,7 +552,7 @@ class City(WithExitStackMixin):
             print(f'{i} / {total}')
             i += 1
 
-            if i == 30000:
+            if i == 15000:
                 break
 
         # building = self.path / state 

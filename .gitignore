@@ -5,3 +5,4 @@ data
 
 preprocessing/venv/*
 !preprocessing/venv/.gitkeep
+preprocessing/tmp/*
