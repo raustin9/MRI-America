@@ -205,15 +205,25 @@ class Building(WithExitStackMixin):
         self.name = name
         self.path = path
         self.scale = scale
-    
+
     def make(self):
-        position = self.path / f'{self.name}.mesh.vec3f[].vertex.position.bin'
-        # print(f'Loading vertices {position}')
+        position = None
+        index = None
+        position = f'{self.name}.mesh.vec3f[].vertex.position.bin'
         position = Map(position, dtype=[
             ('x', 'f4'),
             ('y', 'f4'),
             ('z', 'f4'),
         ])
+        
+        # position = self.path / f'{self.name}.mesh.vec3f[].vertex.position.bin'
+        # print(f'Loading vertices {position}')
+        # position = Map(position, dtype=[
+        #     ('x', 'f4'),
+        #     ('y', 'f4'),
+        #     ('z', 'f4'),
+        # ])
+        
         # print()
         # print()
         # print("POSITION")
