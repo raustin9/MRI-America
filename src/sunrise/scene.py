@@ -209,56 +209,24 @@ class Building(WithExitStackMixin):
     def make(self):
         position = None
         index = None
-        position = f'{self.name}.mesh.vec3f[].vertex.position.bin'
+        
+        position = self.path / f'{self.name}.mesh.vec3f[].vertex.position.bin'
+        print(f'Loading vertices {position}')
         position = Map(position, dtype=[
             ('x', 'f4'),
             ('y', 'f4'),
             ('z', 'f4'),
         ])
-        
-        # position = self.path / f'{self.name}.mesh.vec3f[].vertex.position.bin'
-        # print(f'Loading vertices {position}')
-        # position = Map(position, dtype=[
-        #     ('x', 'f4'),
-        #     ('y', 'f4'),
-        #     ('z', 'f4'),
-        # ])
-        
-        # print()
-        # print()
-        # print("POSITION")
-        # print(position)
-        # print()
-        # print()
-        # xlo = position['x'].min()
-        # xhi = position['x'].max()
-        # xmi = (xlo + xhi) / 2
-        # ylo = position['y'].min()
-        # yhi = position['y'].max()
-        # ymi = (ylo + yhi) / 2
-        # zlo = position['z'].min()
-        # zhi = position['z'].max()
-        # zmi = (zlo + zhi) / 2
-        # print(f'[ {xlo:.1f} ]-[ {xmi:.1f} ]-[ {xhi:.1f} ] ({position["x"][0]:.1f})')
-        # print(f'[ {ylo:.1f} ]-[ {ymi:.1f} ]-[ {yhi:.1f} ] ({position["y"][0]:.1f})')
-        # print(f'[ {zlo:.1f} ]-[ {zmi:.1f} ]-[ {zhi:.1f} ] ({position["z"][0]:.1f})')
         self.hold(position)
         position = Data(position, type=lib.OSP_VEC3F, share=True)
         self.defer(lib.ospRelease, position)
 
         index = self.path / f'{self.name}.mesh.vec3ui[].vertex.index.bin'
-        # print(f'Loading quads {index}')
         index = Map(index, dtype=[
             ('a', 'u4'),
             ('b', 'u4'),
             ('c', 'u4'),
         ])
-        # print()
-        # print()
-        # print("INDEX")
-        # print(index)
-        # print()
-        # print()
 
         self.hold(index)
         index = Data(index, type=lib.OSP_VEC3UI, share=True)
@@ -266,62 +234,36 @@ class Building(WithExitStackMixin):
 
         
         # print(self.path)
+        material = self.path / f'{self.name}.obj.vec3f[].kd.bin'
+        material = Map(material, dtype=[
+            ('r', 'f4'),
+            ('g', 'f4'),
+            ('b', 'f4'),
+        ])
+        self.hold(material)
+        # print(material[0])
+        color = material[0]
+        material = Data(material, type=lib.OSP_VEC3F, share=True)
+        material = lib.ospNewMaterial(b'obj')
 
         geometry = lib.ospNewGeometry(b'mesh')
         self.defer(lib.ospRelease, geometry)
         lib.ospSetObject(geometry, b'vertex.position', position)
         lib.ospSetObject(geometry, b'index', index)
-        lib.ospSetVec3f(geometry, b'color', 0.0, 1.0, 1.0) 
+        lib.ospSetVec3f(geometry, b'color', color[0], color[1], color[2]) 
         lib.ospCommit(geometry)
         #
         # print(f'loading materials')
-        material = lib.ospNewMaterial(b'obj')
-        lib.ospSetVec3f(material, b'kd', 0.5, 0.7, 0.2)
+
+        lib.ospSetVec3f(material, b'kd', color[0], color[1], color[2])
         self.defer(lib.ospRelease, material)
 
-        # materials = []
-        # with open(self.path / 'OSPMaterial[].obj.vec3f.kd.bin', 'rb') as f:
-        #     for i in range(256):
-        #         r, g, b = auto.struct.unpack('fff', f.read(12))
-        #
-        #         material = lib.ospNewMaterial(b'obj')
-        #         self.defer(lib.ospRelease, material)
-        #         # lib.ospSetVec3f(material, b'kd', r, g, b)
-        #
-        #         if i == 0:
-        #             # print(f'BUILDING: r:{r} g:{g} b:{b}')
-        #             lib.ospSetVec3f(material, b'kd', 0.5, 0.5, 0.5)
-        #             # lib.ospSetFloat(material, b'd', 0.15)
-        #         else:
-        #             lib.ospSetVec3f(material, b'kd', r, g, b)
-        #         # lib.ospSetVec3f(material, b'kd', r, g, b)
-        #         lib.ospCommit(material)
-        #
-        #         materials.append(material)
-        #
-        # materials = Data([
-        #     *materials,
-        # ], type=lib.OSP_MATERIAL)
-        # self.defer(lib.ospRelease, materials)
-        # print('loaded materials')
-
-        # index = self.path / 'TOSPGeometricModel.uchar[].index.bin'
-        # # index = self.path / 'OSPGeometricModel.uchar[].index.bin'
-        # print(f'loading index {index}')
-        # index = Map(index, dtype=[
-        #     ('i', 'u1'),
-        # ])
-        # self.hold(index)
-        # index = Data(index, type=lib.OSP_UCHAR, share=True)
-        # self.defer(lib.ospRelease, index)
-        # print('loaded index')
-        
-        # print(f'loading geomodel')
         geomodel = lib.ospNewGeometricModel(None)
         self.defer(lib.ospRelease, geomodel)
         lib.ospSetObject(geomodel, b'geometry', geometry)
         lib.ospSetObject(geomodel, b'material', material)
-        lib.ospSetVec4f(geomodel, b'color', 0.0, 1.0, 1.0, 1.0)
+        lib.ospSetVec4f(geomodel, b'color', color[0], color[1], color[2], 1.0)
+        # lib.ospSetVec4f(geomodel, b'color', 0.0, 1.0, 1.0, 1.0)
         # lib.ospSetObject(geomodel, b'index', index)
         lib.ospCommit(geomodel)
         # print('loaded geomodel')
@@ -936,9 +878,9 @@ class Scene(WithExitStackMixin):
         lib.ospCommit(world)
 
         renderer = (
-            # b'ao'  # does not use lights
+            b'ao'  # does not use lights
             # b'pathtracer'
-             b'scivis'
+            #  b'scivis'
             # self.config.renderer.type().encode('utf-8')
         )
         renderer = lib.ospNewRenderer(renderer)

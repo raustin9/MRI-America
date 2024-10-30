@@ -195,7 +195,8 @@ async def get_scene(
 #        )
 #        what.make()
 
-        NUM_THREADS = 3
+        NUM_THREADS = 1
+        
         # NUM_THREADS = 6
         for _ in range(NUM_THREADS):
             what=scene.City(
